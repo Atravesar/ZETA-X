@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        tools:context="com.example.npquy.activity.BookingSaved" />
+
+    <RelativeLayout
+        android:id="@+id/content_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/te"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Your car is booked" />
+
+            <TextView
+                android:id="@+id/date_booked"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:text="Your car is booked" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/tex"
+            android:layout_below="@+id/te"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:src="@drawable/ic_current_booking"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="We'll let you know when the driver is on the way" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/re"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:layout_below="@+id/tex"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <Button
+                android:id="@+id/close_book"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:background="#00CCCC"
+                android:text="Close Booking"
+                android:textAlignment="center"></Button>
+
+            <Button
+                android:id="@+id/booking_detail"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/total"
+                android:layout_weight="0.5"
+                android:onClick="booking"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:text="More Details"
+                android:background="#000000"
+                android:textColor="#00CCCC"
+                android:clickable="false"
+                android:textAlignment="center"></Button>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
+

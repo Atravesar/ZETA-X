@@ -1,0 +1,369 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.npquy.activity.BookingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line">
+
+            <EditText
+                android:id="@+id/pick_up_booking"
+                android:layout_width="match_parent"
+                android:drawableRight="@drawable/ic_swap"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:clickable="true"
+                android:background="@android:color/transparent"
+                android:hint="Pick Up"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line">
+
+            <com.example.npquy.service.CustomEditText
+                android:id="@+id/drop_off_booking"
+                android:layout_width="match_parent"
+                android:drawableRight="@drawable/ic_add"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:clickable="true"
+                android:background="@android:color/transparent"
+                android:hint="Drop off"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+<!--
+        <com.example.npquy.service.CustomEditText
+            android:id="@+id/drop_off_booking"
+            android:drawableRight="@drawable/ic_add"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_up_booking"
+            android:clickable="true"
+            android:hint="Drop off"></com.example.npquy.service.CustomEditText>-->
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line">
+
+            <com.example.npquy.service.CustomEditText
+                android:id="@+id/via_address_booking"
+                android:layout_width="match_parent"
+                android:drawableRight="@drawable/ic_remove"
+                android:visibility = "gone"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:clickable="true"
+                android:background="@android:color/transparent"
+                android:hint="Via Address "
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/drop_off_booking"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line">
+
+            <EditText
+                android:id="@+id/date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date time"
+                android:drawableRight="@drawable/date2"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/phone_number"
+                android:imeOptions="actionUnspecified"
+                android:background="@android:color/transparent"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textAlignment="center" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:id="@+id/car"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line"
+            android:layout_margin="0dp"
+            android:paddingRight="20dp"
+            android:layout_below="@+id/text_view"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_weight="0.3"
+                android:layout_height="40dp"
+                android:src="@drawable/saloon"/>
+            <TextView
+                android:layout_width="0dip"
+                android:layout_weight="0.3"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Your car"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.07"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/passengers"/>
+            <TextView
+                android:id="@+id/people_booking"
+                android:layout_width="0dp"
+                android:layout_weight="0.07"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text="2"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.07"
+                android:layout_marginLeft="20dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/bags"/>
+            <TextView
+                android:id="@+id/luggage_booking"
+                android:layout_width="0dp"
+                android:layout_weight="0.07"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text="2"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/first_line"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_time"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <Switch
+                android:id="@+id/w8"
+                android:layout_width="0dip"
+                android:layout_weight="0.5"
+                android:drawableLeft="@drawable/wait_return"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:switchMinWidth="50dp"
+                android:background="@drawable/bottom_right_line"
+                android:textOn=""
+                android:textOff=""
+                android:textSize="10dp"
+                android:text=" Wait &amp; Return"></Switch>
+
+            <Switch
+                android:id="@+id/child_seat"
+                android:layout_width="0dip"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/child_seat"
+                android:switchMinWidth="50dp"
+                android:background="@drawable/bottom_line"
+                android:textOn=""
+                android:textOff=""
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/total"
+                android:textSize="10dp"
+                android:text= "Child seat"></Switch>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/second_line"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first_line"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <Switch
+                android:id="@+id/pet"
+                android:layout_width="0dip"
+                android:layout_weight="0.5"
+                android:drawableLeft="@drawable/pet_friendly"
+                android:switchMinWidth="50dp"
+                android:textOn=""
+                android:textOff=""
+                android:textSize="10dp"
+                android:background="@drawable/bottom_right_line"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:text=" Pet friendly"></Switch>
+
+            <Switch
+                android:id="@+id/eco"
+                android:layout_width="0dip"
+                android:layout_weight="0.5"
+                android:drawableLeft="@drawable/eco_friendly"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="50dp"
+                android:background="@drawable/bottom_line"
+                android:padding="10dp"
+                android:textOn=""
+                android:textOff=""
+                android:textSize="10dp"
+                android:layout_toRightOf="@+id/total"
+                android:text=" Eco friendly"></Switch>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/third_line"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/second_line"
+            android:background="@drawable/bottom_line"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <TextView
+                android:id="@+id/pay_by"
+                android:layout_width="0dip"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:text="Pay by"></TextView>
+
+            <EditText
+                android:id="@+id/pay_by_edit"
+                android:layout_width="0dip"
+                android:layout_weight="0.8"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/pay_by"
+                android:text="Cash"></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fourth_line"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/third_line"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <TextView
+                android:id="@+id/note"
+                android:layout_width="0dip"
+                android:layout_weight="0.2"
+                android:paddingTop="3dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:text="Notes"></TextView>
+
+            <EditText
+                android:id="@+id/content_note"
+                android:layout_width="0dip"
+                android:layout_weight="0.8"
+                android:lines="8"
+                android:layout_height="match_parent"
+                android:gravity="top|left"
+                android:layout_toRightOf="@+id/note"
+                android:maxLines="10"
+                android:background="@android:color/transparent"
+                android:hint="Please write any notes"></EditText>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/end_line"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:weightSum="1.0">
+        <LinearLayout
+            android:id="@+id/total_booking"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:background="#00CCCC"
+            android:layout_weight="0.5">
+
+            <TextView
+                android:paddingTop="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="11sp"
+                android:text="Total"/>
+            <TextView
+                android:id="@+id/tv_total_booking"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="£0"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/book_booking"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:background="#000000">
+
+            <TextView
+                android:paddingTop="7dp"
+                android:id="@+id/tv_book_booking1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#00CCCC"
+                android:layout_gravity="center"
+                android:textSize="11sp"
+                android:text="Confirm"/>
+            <TextView
+                android:id="@+id/tv_book_booking2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#00CCCC"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="Booking"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

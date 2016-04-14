@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_vertical_margin"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/status_history"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="0dip"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:text="CANCELLED"/>
+        <TextView
+            android:id="@+id/booking_id"
+            android:layout_width="0dip"
+            android:layout_weight="0.6"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:text="#744954"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/time_history"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0">
+
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wait_return"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:text=" When"/>
+        <TextView
+            android:id="@+id/date_time_history"
+            android:layout_width="0dip"
+            android:layout_weight="0.6"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:text="Wed 24 Feb, 20:15"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pick_up_history"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0">
+
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_weight="0.1"
+            android:layout_height="50dp"
+            android:src="@drawable/pickup_icon"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=" Pick up"/>
+        <TextView
+            android:id="@+id/pick_up_history_value"
+            android:layout_width="0dip"
+            android:layout_weight="0.6"
+            android:gravity="right"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/drop_off_history"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0">
+
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_weight="0.1"
+            android:layout_height="50dp"
+            android:src="@drawable/destination_icon"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text=" Drop off"/>
+        <TextView
+            android:id="@+id/drop_off_history_value"
+            android:layout_width="0dip"
+            android:layout_weight="0.6"
+            android:gravity="right"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="17 Ladycroft Road, London, SE13 7BY"/>
+    </LinearLayout>
+</LinearLayout>

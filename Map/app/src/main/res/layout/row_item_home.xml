@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0">
+            <ImageView
+                android:id="@+id/imgitem"
+                android:layout_width="0dip"
+                android:layout_weight="0.15"
+                android:layout_height="50dip"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="here"
+                android:src="@drawable/ic_action_name" />
+            <LinearLayout
+                android:id="@+id/select_home_address"
+                android:layout_width="0dip"
+                android:layout_weight="0.7"
+                android:orientation="vertical"
+                android:onClick="selectHome"
+                android:layout_height="match_parent">
+                <TextView android:id="@+id/home_road_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:textSize="16dip"
+                    android:textStyle="bold"/>
+                <TextView android:id="@+id/home_address_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dip"
+                    android:textSize="12dip"/>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/imgEdit"
+                android:layout_width="0dip"
+                android:onClick="editHomeAddress"
+                android:layout_weight="0.1"
+                android:layout_height="20dip"
+                android:paddingLeft="2dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:contentDescription="here"
+                android:src="@drawable/edit" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
