@@ -157,9 +157,10 @@ public class GetHomeAddressActivity extends AppCompatActivity {
 //                    Address.class).deserialize(homeAddressJson);
 //        }
         addressesData.add("SELECT HOME ADDRESS");
-        if(cusId != null&&addressDb.getHomeAddressFromDb(cusId)!=null) {
-            addressesData.addAll(addressDb.getHomeAddressFromDb(cusId));
-        }
+//        if(cusId != null&&addressDb.getHomeAddressFromDb(cusId)!=null) {
+//            addressesData.addAll(addressDb.getHomeAddressFromDb(cusId));
+//        }
+        addressesData.addAll(addressDb.getAddressFromDb());
 
 
     }

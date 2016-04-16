@@ -42,6 +42,12 @@ import com.example.npquy.entity.User;
 import com.example.npquy.service.CustomEditText;
 import com.example.npquy.service.DrawableClickListener;
 import com.example.npquy.service.WebServiceTaskManager;
+import com.example.npquy.service.volley.Request;
+import com.example.npquy.service.volley.RequestQueue;
+import com.example.npquy.service.volley.Response;
+import com.example.npquy.service.volley.VolleyError;
+import com.example.npquy.service.volley.toolbox.JsonObjectRequest;
+import com.example.npquy.service.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,23 +63,22 @@ import flexjson.JSONSerializer;
 
 public class BookingActivity extends AppCompatActivity implements
         View.OnClickListener {
-    private EditText dateTime, pickUp, phoneNumber, mPhoneNumber, note, name, pay_by, billingPostcodeTv, expiryTv, cvvTv;
+    private EditText dateTime, phoneNumber, mPhoneNumber, note, name, pay_by, billingPostcodeTv, expiryTv, cvvTv;
     private int mYear, mMonth, mDay, mHour, mMinute, hours, minutes;
-    private CustomEditText viaAdd, dropOff;
+    private CustomEditText viaAdd, dropOff, pickUp;
     private LinearLayout confirmBooking, totalBooking;
     private Switch waitAndReturn, childSeat, pet, eco;
     private AutoCompleteTextView mEmailView, signUpEmail, cardNumberTv;
     private Menu menu;
 
     private SaveBooking saveBooking;
-    private Boolean isClickOnAddImage = false;
-    private Boolean isClickOnRemoveImage = false;
 
     private Address pickUpAddress, dropOffAddress, viaAddress;
 
-    private TextView people,luggage;
-    private TextView total,confirmTv1,confirmTv2;
+    private TextView people, luggage;
+    private TextView total, confirmTv1, confirmTv2;
 
+    private int num_people, num_luggage;
     private Date dateBook;
 
     private Boolean isWaitAndReturn = false;
@@ -89,12 +94,11 @@ public class BookingActivity extends AppCompatActivity implements
     private Double totalFare;
 
     private User user;
+    private LinearLayout carLayout;
 
-    private boolean isFocus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_booking);
 
         config();
@@ -121,99 +125,36 @@ public class BookingActivity extends AppCompatActivity implements
             retrieveQuote = new JSONDeserializer<RetrieveQuote>().use(null,
                     RetrieveQuote.class).deserialize(retrieveQuoteJson);
             Log.e("retrieveQuote", retrieveQuote.toString());
-            Integer num_people = packageFromCaller.getInt("people");
-            Integer num_luggage = packageFromCaller.getInt("luggage");
+
             totalFare = packageFromCaller.getDouble("totalFare");
             total.setText("£" + totalFare);
             dateTime.setInputType(InputType.TYPE_NULL);
             pickUp.setText(pickUpAddress.getFulladdress());
             dropOff.setText(dropOffAddress.getFulladdress());
-            people.setText(num_people + "");
-            luggage.setText(num_luggage + "");
         }
+        retrieveQuote.setPaq(Integer.parseInt(luggage.getText().toString()));
+        retrieveQuote.setBags(Integer.parseInt(people.getText().toString()));
         handleListener();
     }
 
     private void handleListener() {
+        carLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCarBox(BookingActivity.this);
+            }
+        });
         dateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
-                mHour = c.get(Calendar.HOUR_OF_DAY);
-                mMinute = c.get(Calendar.MINUTE);
-                TimePickerDialog timePickerDialog = new TimePickerDialog(BookingActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-                                hours = hourOfDay;
-                                minutes = minute;
-                                DatePickerDialog datePickerDialog = new DatePickerDialog(BookingActivity.this,
-                                        new DatePickerDialog.OnDateSetListener() {
-
-                                            @Override
-                                            public void onDateSet(DatePicker view, int year,
-                                                                  int monthOfYear, int dayOfMonth) {
-                                                dateBook = new Date(year, monthOfYear + 1, dayOfMonth, hours, minutes);
-                                                dateTime.setText(dateBook.toString());
-                                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                                                String date = sdf.format(dateBook);
-                                                retrieveQuote.setBookingdate(date);
-                                                doChange();
-                                            }
-                                        }, mYear, mMonth, mDay);
-                                datePickerDialog.show();
-                            }
-                        }, mHour, mMinute, false);
-                timePickerDialog.show();
-
-
+                showDateTimePicker();
             }
         });
         dateTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
-                mHour = c.get(Calendar.HOUR_OF_DAY);
-                mMinute = c.get(Calendar.MINUTE);
                 if (hasFocus) {
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(BookingActivity.this,
-                            new TimePickerDialog.OnTimeSetListener() {
-
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay,
-                                                      int minute) {
-
-                                    hours = hourOfDay;
-                                    minutes = minute;
-                                    DatePickerDialog datePickerDialog = new DatePickerDialog(BookingActivity.this,
-                                            new DatePickerDialog.OnDateSetListener() {
-
-                                                @Override
-                                                public void onDateSet(DatePicker view, int year,
-                                                                      int monthOfYear, int dayOfMonth) {
-                                                    dateBook = new Date(year, monthOfYear + 1, dayOfMonth, hours, minutes);
-                                                    dateTime.setText(dateBook.toString());
-                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                                                    String date = sdf.format(dateBook);
-                                                    retrieveQuote.setBookingdate(date);
-                                                    doChange();
-                                                }
-                                            }, mYear, mMonth, mDay);
-                                    datePickerDialog.show();
-                                }
-                            }, mHour, mMinute, false);
-                    timePickerDialog.show();
-
-
-
+                    showDateTimePicker();
                 }
             }
         });
@@ -247,7 +188,6 @@ public class BookingActivity extends AppCompatActivity implements
         viaAdd.setDrawableClickListener(new DrawableClickListener() {
 
             public void onClick(DrawablePosition target) {
-                isClickOnRemoveImage = true;
                 switch (target) {
                     case RIGHT:
                         viaAdd.setVisibility(View.GONE);
@@ -266,10 +206,39 @@ public class BookingActivity extends AppCompatActivity implements
         });
         dropOff.setDrawableClickListener(new DrawableClickListener() {
             public void onClick(DrawablePosition target) {
-                isClickOnAddImage = true;
                 switch (target) {
                     case RIGHT:
                         viaAdd.setVisibility(View.VISIBLE);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+        });
+
+        pickUp.setDrawableClickListener(new DrawableClickListener() {
+            public void onClick(DrawablePosition target) {
+                switch (target) {
+                    case RIGHT:
+                        if (pickUpAddress != null && dropOffAddress != null) {
+                            Address address = pickUpAddress.clone();
+                            pickUpAddress = dropOffAddress;
+                            pickUp.setText(pickUpAddress.getFulladdress());
+                            dropOffAddress = address;
+                            dropOff.setText(dropOffAddress.getFulladdress());
+
+                            retrieveQuote.setDoff(dropOffAddress.getFulladdress());
+                            retrieveQuote.setDoffLat(dropOffAddress.getLatitude());
+                            retrieveQuote.setDoffLong(dropOffAddress.getLongitude());
+                            retrieveQuote.setDroppostcode(dropOffAddress.getPostcode());
+                            retrieveQuote.setPick(pickUpAddress.getFulladdress());
+                            retrieveQuote.setPickLat(pickUpAddress.getLatitude());
+                            retrieveQuote.setPickLong(pickUpAddress.getLongitude());
+                            retrieveQuote.setPickpostcode(pickUpAddress.getPostcode());
+                            doChange();
+                        }
                         break;
 
                     default:
@@ -307,37 +276,25 @@ public class BookingActivity extends AppCompatActivity implements
                 doChange();
             }
         });
-        pet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isPet = isChecked;
-                retrieveQuote.setPetfriendly(isChecked);
-                doChange();
-            }
-        });
-        eco.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isEco = isChecked;
-            }
-        });
+
     }
 
     private void config() {
+        carLayout = (LinearLayout) findViewById(R.id.car);
         dateTime = (EditText) findViewById(R.id.date_time);
         dateTime.setInputType(InputType.TYPE_NULL);
         people = (TextView) findViewById(R.id.people_booking);
         luggage = (TextView) findViewById(R.id.luggage_booking);
-        pickUp = (EditText) findViewById(R.id.pick_up_booking);
+        pickUp = (CustomEditText) findViewById(R.id.pick_up_booking);
         dropOff = (CustomEditText) findViewById(R.id.drop_off_booking);
         viaAdd = (CustomEditText) findViewById(R.id.via_address_booking);
         confirmBooking = (LinearLayout) findViewById(R.id.book_booking);
         totalBooking = (LinearLayout) findViewById(R.id.total_booking);
-        total = (TextView)findViewById(R.id.tv_total_booking);
-        confirmTv1 = (TextView)findViewById(R.id.tv_book_booking1);
-        confirmTv2 = (TextView)findViewById(R.id.tv_book_booking2);
+        total = (TextView) findViewById(R.id.tv_total_booking);
+        confirmTv1 = (TextView) findViewById(R.id.tv_book_booking1);
+        confirmTv2 = (TextView) findViewById(R.id.tv_book_booking2);
         waitAndReturn = (Switch) findViewById(R.id.w8);
         childSeat = (Switch) findViewById(R.id.child_seat);
-        pet = (Switch) findViewById(R.id.pet);
-        eco = (Switch) findViewById(R.id.eco);
         note = (EditText) findViewById(R.id.content_note);
 
         pay_by = (EditText) findViewById(R.id.pay_by_edit);
@@ -348,11 +305,47 @@ public class BookingActivity extends AppCompatActivity implements
         viaAdd.setInputType(InputType.TYPE_NULL);
     }
 
+    private void showDateTimePicker() {
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(BookingActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        dateBook = new Date(year, monthOfYear, dayOfMonth, hours, minutes);
+                        dateTime.setText(dateBook.toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        String date = sdf.format(dateBook);
+                        retrieveQuote.setBookingdate(date);
+                        doChange();
+                    }
+                }, mYear, mMonth, mDay);
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(BookingActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+
+                        hours = hourOfDay;
+                        minutes = minute;
+
+                        datePickerDialog.show();
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 return true;
             default:
@@ -372,6 +365,94 @@ public class BookingActivity extends AppCompatActivity implements
         startActivityForResult(myIntent, type);
     }
 
+    /**
+     * Show dialog picking car
+     *
+     * @param context
+     */
+    private void openCarBox(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.car_selection);
+
+        ImageView dialogButton = (ImageView) dialog.findViewById(R.id.imageView_close);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout salonLayout = (LinearLayout) dialog.findViewById(R.id.salon_layout);
+        final ImageView salon_tick = (ImageView) dialog.findViewById(R.id.salon_tick);
+
+        final LinearLayout mvp_layout = (LinearLayout) dialog.findViewById(R.id.mvp_layout);
+        final ImageView mvp_tick = (ImageView) dialog.findViewById(R.id.mvp_tick);
+
+        LinearLayout executive_layout = (LinearLayout) dialog.findViewById(R.id.executive_layout);
+        final ImageView executive_tick = (ImageView) dialog.findViewById(R.id.executive_tick);
+
+        LinearLayout estate_layout = (LinearLayout) dialog.findViewById(R.id.estate_layout);
+        final ImageView estate_tick = (ImageView) dialog.findViewById(R.id.estate_tick);
+
+        salonLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideImage(mvp_tick, executive_tick, salon_tick, estate_tick);
+                salon_tick.setVisibility(View.VISIBLE);
+                num_people = 4;
+                num_luggage = 2;
+            }
+        });
+
+        mvp_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideImage(mvp_tick, executive_tick, salon_tick, estate_tick);
+                mvp_tick.setVisibility(View.VISIBLE);
+                num_people = 6;
+                num_luggage = 5;
+            }
+        });
+
+        executive_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideImage(mvp_tick, executive_tick, salon_tick, estate_tick);
+                executive_tick.setVisibility(View.VISIBLE);
+                num_people = 4;
+                num_luggage = 2;
+            }
+        });
+
+        estate_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideImage(mvp_tick, executive_tick, salon_tick, estate_tick);
+                estate_tick.setVisibility(View.VISIBLE);
+                num_people = 4;
+                num_luggage = 3;
+            }
+        });
+
+        Button chooseCar = (Button) dialog.findViewById(R.id.choose_car);
+        chooseCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (num_people != 0 && num_luggage != 0) {
+                    people.setText(num_people + "");
+                    luggage.setText(num_luggage + "");
+                    retrieveQuote.setPaq(num_people);
+                    retrieveQuote.setBags(num_luggage);
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
     @Override
     public void onClick(View v) {
         if (v == pickUp) {
@@ -381,16 +462,23 @@ public class BookingActivity extends AppCompatActivity implements
         } else if (v == viaAdd) {
             pickLocation(3);
         } else if (v == confirmBooking) {
-            if(dateBook == null) {
-                Toast.makeText(BookingActivity.this, "Please select the time to booking car",Toast.LENGTH_LONG).show();
-            }else{
-                if(retrieveQuoteResult != null) {
+            if (dateBook == null) {
+                Toast.makeText(BookingActivity.this, "Please select the time to booking car", Toast.LENGTH_LONG).show();
+            } else {
+                if (retrieveQuoteResult != null) {
                     saveBookingFunction();
-                }else {
+                } else {
                     postQuotationBeforeBooking(retrieveQuote);
                 }
             }
         }
+    }
+
+    private void hideImage(ImageView imageView1, ImageView imageView2, ImageView imageView3, ImageView imageView4) {
+        imageView1.setVisibility(View.INVISIBLE);
+        imageView2.setVisibility(View.INVISIBLE);
+        imageView3.setVisibility(View.INVISIBLE);
+        imageView4.setVisibility(View.INVISIBLE);
     }
 
     private void beforePostData() {
@@ -435,8 +523,6 @@ public class BookingActivity extends AppCompatActivity implements
             saveBooking.setPkLong(pickUpAddress.getLongitude());
             saveBooking.setPaq(Integer.parseInt(people.getText().toString()));
             saveBooking.setBags(Integer.parseInt(luggage.getText().toString()));
-            saveBooking.setPetfriendly(isPet);
-            saveBooking.setChildseat(isChildSeat);
             saveBooking.setOutcode(pickUpAddress.getOutcode());
             saveBooking.setVehType(retrieveQuoteResult.getVehType());
             saveBooking.setRjType(":");
@@ -700,7 +786,8 @@ public class BookingActivity extends AppCompatActivity implements
 
 
     private void postQuotation(RetrieveQuote retrieveQuote) {
-
+        totalFare = 0.00;
+        total.setText("£" + totalFare);
         String url = WebServiceTaskManager.URL + "Quotation";
         beforePostData();
         WebServiceTaskManager wst = new WebServiceTaskManager(WebServiceTaskManager.POST_TASK, this, "") {
@@ -732,32 +819,49 @@ public class BookingActivity extends AppCompatActivity implements
 
     private void postQuotationBeforeBooking(RetrieveQuote retrieveQuote) {
 
+        totalFare = 0.00;
+        total.setText("£" + totalFare);
         String url = WebServiceTaskManager.URL + "Quotation";
 
-        WebServiceTaskManager wst = new WebServiceTaskManager(WebServiceTaskManager.POST_TASK, this, "") {
-
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JSONObject retrieveQuoteJson = null;
+        try {
+            String json = new JSONSerializer().exclude("*.class").serialize(
+                    retrieveQuote);
+            retrieveQuoteJson = new JSONObject(json);
+        } catch (JSONException e) {
+            Log.e("JSONException", e.getLocalizedMessage());
+        }
+        if (retrieveQuoteJson == null) {
+            return;
+        }
+        JsonObjectRequest requestQuotation = new JsonObjectRequest(Request.Method.POST, url, retrieveQuoteJson, new Response.Listener<JSONObject>() {
             @Override
-            public void handleResponse(String response) {
-                try {
-                    retrieveQuoteResult = new JSONDeserializer<RetrieveQuoteResult>().use(null,
-                            RetrieveQuoteResult.class).deserialize(response);
-                    Log.e("RetrieveQuoteResult", retrieveQuoteResult.toString());
-                    if (retrieveQuoteResult != null) {
-                        totalFare = Double.parseDouble(retrieveQuoteResult.getTotalfare().trim());
-                        total.setText("£" + totalFare);
-                        saveBookingFunction();
+            public void onResponse(JSONObject response) {
+                Log.e("response_quotation", response.toString(), null);
+                if (response != null) {
+                    try {
+                        retrieveQuoteResult = new JSONDeserializer<RetrieveQuoteResult>().use(null,
+                                RetrieveQuoteResult.class).deserialize(response.toString());
+                        Log.e("RetrieveQuoteResult", retrieveQuoteResult.toString());
+                        if (retrieveQuoteResult != null) {
+                            totalFare = Double.parseDouble(retrieveQuoteResult.getTotalfare().trim());
+                            total.setText("£" + totalFare);
+                            saveBookingFunction();
+                        }
+                    } catch (Exception e) {
+                        Log.e("post Quotation", e.getLocalizedMessage());
                     }
-                } catch (Exception e) {
-                    Log.e("post Quotation", e.getLocalizedMessage());
                 }
+                afterPostData();
             }
-        };
-
-        String json = new JSONSerializer().exclude("*.class").serialize(
-                retrieveQuote);
-        wst.addNameValuePair("", json);
-
-        wst.execute(new String[]{url});
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Exception", "Post data to /Quotation is failure!");
+            }
+        });
+        queue.add(requestQuotation);
 
     }
 
@@ -770,9 +874,12 @@ public class BookingActivity extends AppCompatActivity implements
                 Log.e("response_SaveBooking", response, null);
                 try {
                     JSONObject root = new JSONObject(response);
+                    if (root == null) {
+                        return;
+                    }
                     String message = root.getString("message");
                     String code = root.getString("code");
-                    if(message.trim().toLowerCase().equals("success") && code.equals("1")) {
+                    if (code.equals("1")) {
                         Intent myIntent = new Intent(BookingActivity.this, BookingSaved.class);
 
                         Bundle bundle = new Bundle();
@@ -781,8 +888,12 @@ public class BookingActivity extends AppCompatActivity implements
                         bundle.putString("savedBooking", savedBooking);
                         myIntent.putExtra("data", bundle);
                         startActivity(myIntent);
-                    }else {
-                        Toast.makeText(BookingActivity.this, message,Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (message.length() < 50) {
+                            Toast.makeText(BookingActivity.this, message, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(BookingActivity.this, "Booking not success", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } catch (JSONException e) {
                     Log.e("Error", e.getLocalizedMessage(), e);

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line">
 
-            <EditText
+            <com.example.npquy.service.CustomEditText
                 android:id="@+id/pick_up_booking"
                 android:layout_width="match_parent"
                 android:drawableRight="@drawable/ic_swap"
@@ -124,7 +124,7 @@
             <ImageView
                 android:layout_width="0dip"
                 android:layout_weight="0.3"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:src="@drawable/saloon"/>
             <TextView
                 android:layout_width="0dip"
@@ -203,43 +203,6 @@
                 android:text= "Child seat"></Switch>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/second_line"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/first_line"
-            android:orientation="horizontal"
-            android:weightSum="1.0">
-
-            <Switch
-                android:id="@+id/pet"
-                android:layout_width="0dip"
-                android:layout_weight="0.5"
-                android:drawableLeft="@drawable/pet_friendly"
-                android:switchMinWidth="50dp"
-                android:textOn=""
-                android:textOff=""
-                android:textSize="10dp"
-                android:background="@drawable/bottom_right_line"
-                android:padding="10dp"
-                android:layout_height="wrap_content"
-                android:text=" Pet friendly"></Switch>
-
-            <Switch
-                android:id="@+id/eco"
-                android:layout_width="0dip"
-                android:layout_weight="0.5"
-                android:drawableLeft="@drawable/eco_friendly"
-                android:layout_height="wrap_content"
-                android:switchMinWidth="50dp"
-                android:background="@drawable/bottom_line"
-                android:padding="10dp"
-                android:textOn=""
-                android:textOff=""
-                android:textSize="10dp"
-                android:layout_toRightOf="@+id/total"
-                android:text=" Eco friendly"></Switch>
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/third_line"
@@ -316,22 +279,32 @@
             android:orientation="vertical"
             android:background="#00CCCC"
             android:layout_weight="0.5">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1.0">
 
             <TextView
-                android:paddingTop="7dp"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="11sp"
+                android:layout_weight="0.35"
                 android:text="Total"/>
             <TextView
                 android:id="@+id/tv_total_booking"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.65"
                 android:text="£0"/>
-
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/book_booking"
@@ -340,15 +313,23 @@
             android:layout_weight="0.5"
             android:orientation="vertical"
             android:background="#000000">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1.0">
 
             <TextView
-                android:paddingTop="7dp"
                 android:id="@+id/tv_book_booking1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#00CCCC"
                 android:layout_gravity="center"
-                android:textSize="11sp"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
+                android:layout_weight="0.3"
                 android:text="Confirm"/>
             <TextView
                 android:id="@+id/tv_book_booking2"
@@ -356,8 +337,10 @@
                 android:layout_height="wrap_content"
                 android:textColor="#00CCCC"
                 android:layout_gravity="center"
+                android:layout_weight="0.7"
                 android:textSize="16sp"
                 android:text="Booking"/>
+            </LinearLayout>
 
         </LinearLayout>
 

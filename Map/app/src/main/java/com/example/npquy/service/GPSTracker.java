@@ -27,8 +27,8 @@ public class GPSTracker implements LocationListener {
     boolean canGetLocation = false;
 
     Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    Double latitude; // latitude
+    Double longitude; // longitude
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
@@ -72,11 +72,11 @@ public class GPSTracker implements LocationListener {
         this.location = location;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -166,7 +166,7 @@ public class GPSTracker implements LocationListener {
     /**
      * Function to get latitude
      */
-    public double getLatitude() {
+    public Double getLatitude() {
         if (location != null) {
             latitude = location.getLatitude();
         }
@@ -178,7 +178,7 @@ public class GPSTracker implements LocationListener {
     /**
      * Function to get longitude
      */
-    public double getLongitude() {
+    public Double getLongitude() {
         if (location != null) {
             longitude = location.getLongitude();
         }

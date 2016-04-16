@@ -65,37 +65,6 @@ public class CurrentBookingActivity extends AppCompatActivity {
         getCurrentBooking(user.getCusID(), user.getDeviceID());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.booking_detail_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // app icon in action bar clicked; goto parent activity.
-                this.finish();
-                return true;
-            case R.id.repeat_journey: {
-                repeatJourney(saveBooking);
-                return true;
-            }
-            case R.id.return_journey: {
-                returnJourney(saveBooking);
-                return true;
-            }
-            case R.id.cancel_booking: {
-                cancelBooking();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void getCurrentBooking(String cusId, String deviceId) {
         String url = WebServiceTaskManager.URL + "CurrentBookings";
 

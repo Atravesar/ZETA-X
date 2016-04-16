@@ -14,4 +14,8 @@ public abstract class Const {
 
 	/** Time alive of a thread. */
 	public static long KeepAliveTime = 60;
+
+	public static double longitude = -0.1275920;
+
+	public static double latitude = 51.5034070;
 }
