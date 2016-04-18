@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Geocoder;
 import android.location.GpsStatus;
 import android.location.LocationListener;
@@ -80,6 +81,10 @@ import flexjson.JSONSerializer;
 /**
  * @author npquy
  */
+/*@ReportsCrashes(formKey = "",
+        mailTo = "phuquy.uit@gmail.com",
+        mode = ReportingInteractionMode.TOAST,
+        resToastText = R.string.crash)*/
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, LocationListener, GpsStatus.Listener {
 
     private GoogleMap mMap;
@@ -92,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private Address pickUpAddress, dropOffAddress;
 
-    private TextView numMinuteDisplayOnMarker, minTextView,totalFareTextView, confirmTextView, bookingTextView;
+    private TextView numMinuteDisplayOnMarker, minTextView, totalFareTextView, confirmTextView, bookingTextView;
 
     private LatLng yourLocation, lastLocation, currentLocation, pickUpLocation, defaultLocation, homeAddress;
 
@@ -118,6 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //ACRA.init(this);
         // Config before running
         configActivity();
         configListener();
@@ -194,8 +200,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         findNearestDriver(homeAddress);
                         postQuotation();
                     } else {
-                        Toast.makeText(MapsActivity.this, "Home address not set", Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(MapsActivity.this, GetHomeAddressActivity.class);
+                        startActivityForResult(myIntent, 4);
+                        overridePendingTransition(R.anim.fade_bottom_in, R.anim.fade_bottom_out);
                     }
+                } else {
+                    Toast.makeText(MapsActivity.this, "Please login to set up home address", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -255,6 +265,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         toggle.syncState();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        return;
+    }
+
     private void setViewById() {
         pickUp = (EditText) findViewById(R.id.pick_up);
         dropOff = (EditText) findViewById(R.id.drop_off);
@@ -264,9 +280,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         progressBar.setVisibility(View.INVISIBLE);
         progressBar.setClickable(false);
         book = (LinearLayout) findViewById(R.id.book);
-        confirmTextView = (TextView) findViewById(R.id.tv_book_1);
-        bookingTextView = (TextView) findViewById(R.id.tv_book_2);
-        totalFareTextView = (TextView) findViewById(R.id.tv_total_1);
+        confirmTextView = (TextView) findViewById(R.id.continue_text_view);
+        bookingTextView = (TextView) findViewById(R.id.booking_text_view);
+        totalFareTextView = (TextView) findViewById(R.id.money_text_view);
         swap = (ImageView) findViewById(R.id.swap_location);
         homeAddressImage = (ImageView) findViewById(R.id.home_address_img);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -385,6 +401,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         myIntent.putExtra("data", bundle);
         startActivityForResult(myIntent, type);
+        overridePendingTransition(R.anim.fade_bottom_in, R.anim.fade_bottom_out);
     }
 
     /**
@@ -415,6 +432,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Address address = (Address) data.getExtras().get("dropOff");
                 dropOffAddress = address;
                 dropOff.setText(address.getFulladdress());
+            }
+        } else if (requestCode == 4 && resultCode == RESULT_OK) {
+            if (data.hasExtra("HomeAddress")) {
+                Address address = (Address) data.getExtras().get("HomeAddress");
+                if (userDb.getCurrentUser() != null) {
+                    User currentUser = userDb.getCurrentUser();
+                    addressDb.insertHomeAddress(address, currentUser.getCusID());
+                    homeAddress = new LatLng(address.getLatitude(), address.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeAddress, 12.0f));
+                    findNearestDriver(homeAddress);
+                    postQuotation();
+                } else {
+                    Toast.makeText(this, "Please login to setting your home location", Toast.LENGTH_LONG).show();
+                }
             }
         }
         if (!pickUp.getText().toString().isEmpty() && !dropOff.getText().toString().isEmpty()) {
@@ -447,6 +478,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 bundle.putDouble("totalFare", totalFare);
                 myIntent.putExtra("data", bundle);
                 startActivity(myIntent);
+                overridePendingTransition(R.anim.fade_right_in, R.anim.fade_right_out);
             }
         } else {
             Toast.makeText(MapsActivity.this, "Please fill the information", Toast.LENGTH_LONG).show();
@@ -492,7 +524,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         latitude = mGPS.getLatitude();
         longitude = mGPS.getLongitude();
-        Log.e("Locate", latitude + " " +longitude);
+        Log.e("Locate", latitude + " " + longitude);
         if (latitude != null && longitude != null) {
             // Add a marker in Sydney and move the camera
             yourLocation = new LatLng(mGPS.getLatitude(), mGPS.getLongitude());
@@ -638,13 +670,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     try {
                         yourNearestDriver = new JSONDeserializer<NearestDriver>().use(null,
                                 NearestDriver.class).deserialize(response);
-                        progressBar.setVisibility(View.INVISIBLE);
+
                         postQuotation();
                         int minute = (int) (yourNearestDriver.getTravelTime() / 1);
                         numMinuteDisplayOnMarker.setText(minute + "");
-                        if(minute > 1) {
+                        if (minute > 1) {
                             minTextView.setText("mins");
-                        }else {
+                        } else {
                             minTextView.setText("min");
                         }
                         LatLng taxiNearest = new LatLng(yourNearestDriver.getCurrentPosition().getLat(), yourNearestDriver.getCurrentPosition().getLgn());
@@ -656,6 +688,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     } catch (Exception e) {
                         Log.e("Error Parse Json", e.getLocalizedMessage());
                     }
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         };
@@ -703,6 +736,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (id == R.id.nav_newbooking) {
             Intent intent = new Intent(MapsActivity.this, MapsActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_booking_history) {
             Intent intent = new Intent(MapsActivity.this, BookingHistoryActivity.class);
             startActivity(intent);
@@ -948,7 +982,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void moveToDefaultLocation () {
+    private void moveToDefaultLocation() {
         defaultLocation = new LatLng(51.5034070, -0.1275920);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12.0f));
         yourLocation = defaultLocation;

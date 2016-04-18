@@ -115,6 +115,7 @@ public class GetAddressActivity extends AppCompatActivity {
             setResult(RESULT_OK, data);
             addressDb.close();
             finish();
+            overridePendingTransition(R.anim.fade_top_in, R.anim.fade_top_out);
         }
     }
 
@@ -215,6 +216,7 @@ public class GetAddressActivity extends AppCompatActivity {
                     setResult(RESULT_OK, data);
                     addressDb.close();
                     finish();
+                    overridePendingTransition(R.anim.fade_top_in, R.anim.fade_top_out);
                 }
 
             }
@@ -278,6 +280,7 @@ public class GetAddressActivity extends AppCompatActivity {
             case android.R.id.home:
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
+                overridePendingTransition(R.anim.fade_top_in, R.anim.fade_top_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

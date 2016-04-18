@@ -37,11 +37,13 @@ public class BookingSaved extends AppCompatActivity implements  OnMapReadyCallba
         setContentView(R.layout.activity_booking_saved);
 
         Intent callerIntent = getIntent();
-        Bundle packageFromCaller =
-                callerIntent.getBundleExtra("data");
-        String data = packageFromCaller.getString("savedBooking");
-        saveBooking = new JSONDeserializer<SaveBooking>().use(null,
-                SaveBooking.class).deserialize(data);
+        if(callerIntent != null) {
+            Bundle packageFromCaller =
+                    callerIntent.getBundleExtra("data");
+            String data = packageFromCaller.getString("savedBooking");
+            saveBooking = new JSONDeserializer<SaveBooking>().use(null,
+                    SaveBooking.class).deserialize(data);
+        }
 
         date = (TextView) findViewById(R.id.date_booked);
         date.setText(saveBooking.getBookingdate());
@@ -61,11 +63,6 @@ public class BookingSaved extends AppCompatActivity implements  OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 Intent bookingDetailIntent = new Intent(BookingSaved.this, CurrentBookingActivity.class);
-/*                Bundle bundle = new Bundle();
-                String savedBooking = new JSONSerializer().exclude("*.class").serialize(
-                        saveBooking);
-                bundle.putString("savedBooking", savedBooking);
-                bookingDetailIntent.putExtra("data", bundle);*/
                 startActivity(bookingDetailIntent);
             }
         });

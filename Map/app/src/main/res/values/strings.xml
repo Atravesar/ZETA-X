@@ -23,4 +23,5 @@
     </string>
     <string name="title_activity_sign_up">Sign up</string>
     <string name="title_activity_get_address">Get Address</string>
+    <string name="crash">Oops you got an error in the app!</string>
 </resources>

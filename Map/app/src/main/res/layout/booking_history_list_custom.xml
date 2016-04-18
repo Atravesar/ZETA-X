@@ -1,112 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin"
-    android:background="#FFFFFF"
-    android:orientation="vertical" >
-    <LinearLayout
-        android:id="@+id/status_history"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:weightSum="1.0">
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="0dip"
-            android:layout_weight="0.4"
-            android:layout_height="wrap_content"
-            android:text="CANCELLED"/>
-        <TextView
-            android:id="@+id/booking_id"
-            android:layout_width="0dip"
-            android:layout_weight="0.6"
-            android:gravity="right"
-            android:layout_height="wrap_content"
-            android:text="#744954"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/time_history"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:weightSum="1.0">
-
-        <ImageView
-            android:layout_width="0dip"
-            android:layout_weight="0.1"
-            android:layout_height="wrap_content"
-            android:src="@drawable/wait_return"/>
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="0.3"
-            android:layout_height="wrap_content"
-            android:text=" When"/>
-        <TextView
-            android:id="@+id/date_time_history"
-            android:layout_width="0dip"
-            android:layout_weight="0.6"
-            android:gravity="right"
-            android:layout_height="wrap_content"
-            android:text="Wed 24 Feb, 20:15"/>
-    </LinearLayout>
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    card_view:cardCornerRadius="0dp"
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:id="@+id/pick_up_history"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:weightSum="1.0">
-
-        <ImageView
-            android:layout_width="0dip"
-            android:layout_weight="0.1"
-            android:layout_height="50dp"
-            android:src="@drawable/pickup_icon"/>
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="0.3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/status_history"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text=" Pick up"/>
-        <TextView
-            android:id="@+id/pick_up_history_value"
-            android:layout_width="0dip"
-            android:layout_weight="0.6"
-            android:gravity="right"
-            android:layout_height="wrap_content"/>
+            android:minHeight="60dp"
+            android:background="#00CCCC"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:weightSum="1.0">
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+
+                android:text="Your car will arrive on"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/booking_id"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="11/11/2011"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:id="@+id/imgMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_overflow"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/time_history"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="1.0">
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:src="@drawable/wait_return" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:text=" When" />
+
+            <TextView
+                android:id="@+id/date_time_history"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:text="Wed 24 Feb, 20:15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pick_up_history"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="1.0">
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="50dp"
+                android:layout_weight="0.1"
+                android:src="@drawable/pickup_icon" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:text=" Pick up" />
+
+            <TextView
+                android:id="@+id/pick_up_history_value"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.6"
+                android:gravity="right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/drop_off_history"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="1.0">
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="50dp"
+                android:layout_weight="0.1"
+                android:src="@drawable/destination_icon" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:text=" Drop off" />
+
+            <TextView
+                android:id="@+id/drop_off_history_value"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.6"
+                android:gravity="right"
+                android:text="17 Ladycroft Road, London, SE13 7BY" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/drop_off_history"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:weightSum="1.0">
-
-        <ImageView
-            android:layout_width="0dip"
-            android:layout_weight="0.1"
-            android:layout_height="50dp"
-            android:src="@drawable/destination_icon"/>
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="0.3"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:text=" Drop off"/>
-        <TextView
-            android:id="@+id/drop_off_history_value"
-            android:layout_width="0dip"
-            android:layout_weight="0.6"
-            android:gravity="right"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:text="17 Ladycroft Road, London, SE13 7BY"/>
-    </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>

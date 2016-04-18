@@ -119,7 +119,7 @@ public class AddressDb extends SQLiteOpenHelper {
 
     public Cursor getData(String full_address) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + AddressDb.ADDRESS_TABLE_NAME + " where " + AddressDb.ADDRESS_COLUMN_FULL_ADDRESS + " = '" + full_address + "'", null);
+        Cursor res = db.rawQuery("select * from " + AddressDb.ADDRESS_TABLE_NAME + " where " + AddressDb.ADDRESS_COLUMN_FULL_ADDRESS + " = '" + full_address + "' and " + AddressDb.ADDRESS_COLUMN_USER_ID + " = null", null);
         return res;
     }
 

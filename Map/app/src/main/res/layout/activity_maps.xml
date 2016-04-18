@@ -72,7 +72,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginBottom="98dp"
-            />
+            android:progressDrawable="@drawable/circular_progressbar"
+            android:indeterminate="false"/>
 
         <RelativeLayout
             android:id="@+id/content_data"
@@ -181,7 +182,7 @@
                     android:layout_weight="0.5">
 
                     <TextView
-                        android:id="@+id/tv_total_2"
+                        android:id="@+id/total_text_view"
                         android:paddingTop="7dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -189,7 +190,7 @@
                         android:textSize="11sp"
                         android:text="Total"/>
                     <TextView
-                        android:id="@+id/tv_total_1"
+                        android:id="@+id/money_text_view"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"
                         android:layout_height="wrap_content"
@@ -209,7 +210,7 @@
 
                     <TextView
                         android:paddingTop="7dp"
-                        android:id="@+id/tv_book_1"
+                        android:id="@+id/continue_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#00CCCC"
@@ -217,7 +218,7 @@
                         android:textSize="11sp"
                         android:text="Continue"/>
                     <TextView
-                        android:id="@+id/tv_book_2"
+                        android:id="@+id/booking_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#00CCCC"

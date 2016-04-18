@@ -3,6 +3,8 @@ package com.example.npquy.adapter;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.npquy.activity.BookingActivity;
 import com.example.npquy.activity.R;
 import com.example.npquy.entity.Address;
 import com.example.npquy.entity.JourneyHistory;
@@ -94,40 +97,9 @@ public class CurrentBookingAdapter extends ArrayAdapter<JourneyHistory> implemen
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                /*JourneyHistory journeyHistory = myArray.get(0);
-                SaveBooking saveBooking = new SaveBooking();
-                //saveBooking.setCustid(journeyHistory.);
-               // saveBooking.setRoutedistance(retrieveQuoteResult.getRoutedistance());
-              //  saveBooking.setVehTypeID(retrieveQuoteResult.getVehTypeID());
-            //    saveBooking.setTravelTime(journeyHistory.getPickupDateTime());
-                saveBooking.setTotalfare(Double.parseDouble(journeyHistory.getTotalFare()));
-                saveBooking.setFare(Double.parseDouble(journeyHistory.getTotalFare()));
-                saveBooking.setPick(journeyHistory.getPickupAddress());
-                saveBooking.setDoff(journeyHistory.getDropoffAddress());
-       *//*         if (viaAddress != null) {
-                    saveBooking.setVia(viaAddress.getFulladdress());
-                    saveBooking.setViaLat(viaAddress.getLatitude());
-                    saveBooking.setViaLong(viaAddress.getLongitude());
-                }*//*
-            *//*    saveBooking.setPkLat(pickUpAddress.getLatitude());
-                saveBooking.setPkLong(pickUpAddress.getLongitude());
-                saveBooking.setPaq(Integer.parseInt(people.getText().toString()));
-                saveBooking.setBags(Integer.parseInt(luggage.getText().toString()));
-                saveBooking.setPetfriendly(isPet);
-                saveBooking.setChildseat(isChildSeat);
-                saveBooking.setOutcode(pickUpAddress.getOutcode());
-                saveBooking.setVehType(retrieveQuoteResult.getVehType());
-                saveBooking.setRjType(":");
-                saveBooking.setNote(note.getText().toString());
-                saveBooking.setDoLat(dropOffAddress.getLatitude());
-                saveBooking.setDoLong(dropOffAddress.getLongitude());*//*
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                String date = sdf.format(dateBook);
-                saveBooking.setBookingdate(date);
-                saveBooking.setInServiceArea(true);*/
                 switch (item.getItemId()){
                     case R.id.menu_repeat_journey:
-                       // repeatJourney(saveBooking);
+                        repeatJourney();
                         Toast.makeText(context, "Can't repeat journey",Toast.LENGTH_LONG).show();
                         return true;
                     case R.id.menu_return_journey:
@@ -201,27 +173,22 @@ public class CurrentBookingAdapter extends ArrayAdapter<JourneyHistory> implemen
         timePickerDialog.show();
     }
 
-    private void repeatJourney(SaveBooking saveBooking) {
-        String url = WebServiceTaskManager.URL + "SaveBooking";
-        showDateTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String date = sdf.format(dateBook);
-        saveBooking.setBookingdate(date);
+    private void repeatJourney() {
+        Intent myIntent = new Intent(context, BookingActivity.class);
+        Bundle bundle = new Bundle();
+/*        String pickUpJson = new JSONSerializer().exclude("*.class").serialize(
+                pickUpAddress);
+        String dropOffJson = new JSONSerializer().exclude("*.class").serialize(
+                dropOffAddress);
+        String retrieveQuoteJson = new JSONSerializer().exclude("*.class").serialize(retrieveQuote);
 
-        WebServiceTaskManager wst = new WebServiceTaskManager(WebServiceTaskManager.POST_TASK, context, "") {
-
-            @Override
-            public void handleResponse(String response) {
-                Log.e("response_SaveBooking", response, null);
-            }
-        };
-
-        String json = new JSONSerializer().exclude("*.class").serialize(
-                saveBooking);
-        Log.e("SaveBookingJson", json, null);
-        wst.addNameValuePair("", json);
-
-        wst.execute(new String[]{url});
+        Log.e("retrieveQuoteJson", retrieveQuoteJson);
+        bundle.putString("pickUpAddress", pickUpJson);
+        bundle.putString("dropOffAddress", dropOffJson);
+        bundle.putString("retrieveQuote", retrieveQuoteJson);
+        bundle.putDouble("totalFare", totalFare);*/
+        myIntent.putExtra("data", bundle);
+        context.startActivity(myIntent);
     }
 
     private void returnJourney(SaveBooking saveBooking) {

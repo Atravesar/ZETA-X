@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.npquy.activity.R;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 public abstract class SingleServiceTaskManager extends
@@ -187,7 +190,13 @@ public abstract class SingleServiceTaskManager extends
                     Thread.currentThread().sleep(1000);
                     Log.i(TAG, "version 2 " + StopHandler.createInstance().getVersion());
                     if (versionPost == StopHandler.createInstance().getVersion()) {
-                        response = httpclient.execute(httpPost);
+                        try {
+                            response = httpclient.execute(httpPost);
+                        }catch (SocketTimeoutException e) {
+                            return response;
+                        }catch (Exception ex) {
+                            return response;
+                        }
                     } else {
                         return response;
                     }
@@ -198,7 +207,7 @@ public abstract class SingleServiceTaskManager extends
                         url += "?" + paramString;
                     }
                     HttpGet httpget = new HttpGet(url);
-                    Log.i(TAG,"HTTP Entiry : " + url);
+                    Log.i(TAG, "HTTP Entiry : " + url);
                     int versionGet = StopHandler.createInstance().getVersion();
                     Thread.currentThread().sleep(1000);
                     if (versionGet == StopHandler.createInstance().getVersion()) {

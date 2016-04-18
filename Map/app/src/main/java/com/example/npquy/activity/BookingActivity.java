@@ -192,6 +192,7 @@ public class BookingActivity extends AppCompatActivity implements
                     case RIGHT:
                         viaAdd.setVisibility(View.GONE);
                         viaAddress = null;
+                        viaAdd.setText("");
                         retrieveQuote.setVia(null);
                         retrieveQuote.setViaLat(null);
                         retrieveQuote.setViaLong(null);
@@ -267,13 +268,17 @@ public class BookingActivity extends AppCompatActivity implements
         waitAndReturn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isWaitAndReturn = isChecked;
+                if(isChecked) {
+                    retrieveQuote.setRtnType("w&r");
+                }else {
+                    retrieveQuote.setRtnType(null);
+                }
             }
         });
         childSeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isChildSeat = isChecked;
                 retrieveQuote.setChildseat(isChecked);
-                doChange();
             }
         });
 
@@ -444,6 +449,7 @@ public class BookingActivity extends AppCompatActivity implements
                     luggage.setText(num_luggage + "");
                     retrieveQuote.setPaq(num_people);
                     retrieveQuote.setBags(num_luggage);
+                    doChange();
                 }
                 dialog.dismiss();
             }
