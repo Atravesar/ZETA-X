@@ -49,13 +49,14 @@ public class CurrentBookingAdapter extends ArrayAdapter<JourneyHistory> implemen
     }
 
     @Override
-    public View getView(int position, View convertView,
+    public View getView(final int position, View convertView,
                         ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater =
                     context.getLayoutInflater();
             convertView = inflater.inflate(layoutId, null);
+
             viewHolder = new ViewHolder();
             viewHolder.bookingDate = (TextView)
                     convertView.findViewById(R.id.booking_current_date);
@@ -79,15 +80,47 @@ public class CurrentBookingAdapter extends ArrayAdapter<JourneyHistory> implemen
                 viewHolder.menu.setOnClickListener(this);
             }
         }
+        viewHolder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context,v);
+                final MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.popup_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_repeat_journey:
+                                repeatJourney();
+                                Toast.makeText(context, "Can't repeat journey",Toast.LENGTH_LONG).show();
+                                return true;
+                            case R.id.menu_return_journey:
+                                //returnJourney(saveBooking);
+                                Toast.makeText(context, myArray.get(position).getJobPartID()+"",Toast.LENGTH_LONG).show();
+                               ;
+                                return true;
+                            case R.id.menu_cancel_booking:
+                                // cancelBooking();
+                                Toast.makeText(context, "Cancel booking is fail",Toast.LENGTH_LONG).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.show();
+            }
+        });
+
         return convertView;
     }
 
     @Override
     public void onClick(View v) {
-        Log.d("sfsd", "imgmenu" + v);
-        if (v.getId()== R.id.imgMenu){
-            showPopupMenu(v);
-        }
+//        Log.d("sfsd", "imgmenu" + v);
+//        if (v.getId()== R.id.imgMenu){
+//            showPopupMenu(v);
+//        }
     }
     public void showPopupMenu(View view){
         PopupMenu popup = new PopupMenu(context,view);

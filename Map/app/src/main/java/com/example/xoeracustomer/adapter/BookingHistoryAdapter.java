@@ -34,8 +34,9 @@ public class BookingHistoryAdapter extends ArrayAdapter<JourneyHistory> implemen
     }
 
     @Override
-    public View getView(int position, View convertView,
+    public View getView(final int position, View convertView,
                         ViewGroup parent) {
+        //final ImageView menuView = (ImageView) convertView.findViewById(R.id.imgMenu);
         ViewHolder vh;
         if (convertView == null) {
             vh = new ViewHolder();
@@ -69,14 +70,45 @@ public class BookingHistoryAdapter extends ArrayAdapter<JourneyHistory> implemen
                 Log.e("journeyHistoryException", e.getLocalizedMessage());
             }
         }
+        vh.imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context,v);
+                final MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.popup_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_repeat_journey:
+
+                                Toast.makeText(context, "repeat journey",Toast.LENGTH_LONG).show();
+                                return true;
+                            case R.id.menu_return_journey:
+                                //returnJourney(saveBooking);
+                                Toast.makeText(context, "return journey",Toast.LENGTH_LONG).show();
+                                ;
+                                return true;
+                            case R.id.menu_cancel_booking:
+                                // cancelBooking();
+                                Toast.makeText(context, "Cancel booking",Toast.LENGTH_LONG).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.show();
+            }
+        });
         return convertView;
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.imgMenu){
-            showPopupMenu(v);
-        }
+//        if(v.getId()==R.id.imgMenu){
+//            showPopupMenu(v);
+//        }
     }
     public void showPopupMenu(View view){
         PopupMenu popup = new PopupMenu(context,view);
