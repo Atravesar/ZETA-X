@@ -1,4 +1,4 @@
-package com.example.npquy.activity;
+package com.example.xoeracustomer.activity;
 
 import org.junit.Test;
 
