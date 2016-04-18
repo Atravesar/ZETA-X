@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="140dp"
-            tools:context="com.example.npquy.activity.MapsActivity" />
+            tools:context="com.atravesar.xoera.xoeracustomer.activity.MapsActivity" />
         <ImageView
         android:id="@+id/pick_up_img"
         android:layout_width="100dp"
