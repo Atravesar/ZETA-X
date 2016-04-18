@@ -11,7 +11,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        tools:context="com.atravesar.xoera.xoeracustomer.activity.BookingSaved" />
+        tools:context="com.example.npquy.activity.BookingSaved" />
 
     <RelativeLayout
         android:id="@+id/content_data"

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.1'
     defaultConfig {
-        applicationId "com.atravesar.xoera.xoeracustomer.map"
+        applicationId "com.example.npquy.map"
         minSdkVersion 15
         targetSdkVersion 19
         versionCode 1

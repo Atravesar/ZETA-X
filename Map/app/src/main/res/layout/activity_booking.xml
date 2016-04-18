@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.atravesar.xoera.xoeracustomer.activity.BookingActivity">
+    tools:context="com.example.npquy.activity.BookingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line">
 
-            <com.atravesar.xoera.xoeracustomer.service.CustomEditText
+            <com.example.npquy.service.CustomEditText
                 android:id="@+id/pick_up_booking"
                 android:layout_width="match_parent"
                 android:drawableRight="@drawable/ic_swap"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line">
 
-            <com.atravesar.xoera.xoeracustomer.service.CustomEditText
+            <com.example.npquy.service.CustomEditText
                 android:id="@+id/drop_off_booking"
                 android:layout_width="match_parent"
                 android:drawableRight="@drawable/ic_add"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line">
 
-            <com.atravesar.xoera.xoeracustomer.service.CustomEditText
+            <com.example.npquy.service.CustomEditText
                 android:id="@+id/via_address_booking"
                 android:layout_width="match_parent"
                 android:drawableRight="@drawable/ic_remove"

@@ -1,4 +1,4 @@
-package com.atravesar.xoera.xoeracustomer.activity;
+package com.example.npquy.activity;
 
 import org.junit.Test;
 
